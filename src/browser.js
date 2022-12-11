@@ -7,23 +7,30 @@ export function getBrowser() {
 }
 
 export async function getCurrentTabInfo() {
-  const tabsPromise = isChrome() ? new Promise(resolve => getBrowser().tabs.query({
-    active: true,
-    currentWindow: true
-  }, resolve)) : getBrowser().tabs.query({ active: true, currentWindow: true });
+  const tabsPromise = isChrome()
+    ? new Promise((resolve) =>
+        getBrowser().tabs.query(
+          {
+            active: true,
+            currentWindow: true,
+          },
+          resolve
+        )
+      )
+    : getBrowser().tabs.query({ active: true, currentWindow: true });
 
   const tabs = await tabsPromise;
   const tab = tabs && tabs[0];
 
   return {
     url: tab ? tab.url : "",
-    title: tab ? tab.title : ""
+    title: tab ? tab.title : "",
   };
 }
 
 export function openOptions() {
   getBrowser().runtime.openOptionsPage();
-  //window.close(); 
+  //window.close();
   /* 
   keeping window.close() introduces a bug in chrome if the options page is 
   opened and closed without saving options. The background script port closes

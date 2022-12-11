@@ -28,16 +28,15 @@ function connected(p) {
       let config = getConfiguration();
       // Configuration is complete, execute a search on linkding
       search(m.searchTerm, { limit: config.resultNum })
-        .then((results) => {
-          const bookmarkSuggestions = results.map((bookmark) => ({
-            url: bookmark.url,
-            title: bookmark.title || bookmark.website_title || bookmark.url,
-            description: bookmark.description || bookmark.website_description,
-            tags: bookmark.tag_names,
-            date: bookmark.date_modified,
+        .then((entries) => {
+          const feedSuggestions = entries.map((feed) => ({
+            url: feed.url,
+            title: feed.title || feed.url,
+            author: feed.feed.title,
+            date: feed.published_at,
           }));
           portFromCS.postMessage({
-            results: bookmarkSuggestions,
+            results: feedSuggestions,
             config: config,
           });
         })

@@ -79,7 +79,7 @@ port.onMessage.addListener(function (m) {
     // URL of the configured linkding instance (including search term)
     let linkdingUrl =
       m.config.baseUrl +
-      (searchTerm.length > 0 ? `/bookmarks?q=${searchTerm}` : "/");
+      (searchTerm.length > 0 ? `/v1/entries?search=${searchTerm}` : "/");
 
     htmlString += `
     <div id="bookmark-list-container" class="${searchEngine} ${themeClass}">
@@ -103,31 +103,21 @@ port.onMessage.addListener(function (m) {
 
     htmlString += `<ul id="bookmark-list">`;
 
-    m.results.forEach((bookmark) => {
+    m.results.forEach((feed) => {
       htmlString += `
         <li>
           <div class="title">
             <a
-              href="${bookmark.url}"
+              href="${feed.url}"
               target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
               rel="noopener"
-              >${escapeHTML(bookmark.title)}</a
+              >${escapeHTML(feed.title)}</a
             >
           </div>
           <div class="description ${themeClass}">
             <span class="tags">
-              ${bookmark.tags
-                .map((tag) => {
-                  return "<a>#" + escapeHTML(tag) + "</a>";
-                })
-                .join(" ")}
-              </a>
-            </span>
-    
-            ${bookmark.tags.length > 0 ? "|" : ""}
-    
-            <span>
-              ${escapeHTML(bookmark.description)}
+             <a> ${escapeHTML(feed.author)} </a>
+              <a> ${escapeHTML(feed.date)} </a>
             </span>
           </div>
         </li>`;

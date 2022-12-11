@@ -125,3 +125,5 @@ dist
 /web-ext-artifacts
 .web-extension-id
 /styles/searchInjection.*
+
+.DS_Store
