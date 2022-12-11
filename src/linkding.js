@@ -32,3 +32,19 @@ export async function testConnection(configuration) {
     .then((body) => !!body.entries)
     .catch(() => false);
 }
+
+export async function getEntryUrl(configuration, id) {
+  const response = await fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
+    headers: {
+      "X-Auth-Token": `${configuration.token}`,
+    },
+  });
+  if (response.status !== 200) {
+    Promise.reject(response);
+    throw new Error("Failed to fetch URL");
+  }
+  const body = await response.json();
+  const { status } = body;
+  const url = `${configuration.baseUrl}/${status}/entry/${id}`;
+  return url;
+}

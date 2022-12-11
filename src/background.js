@@ -1,7 +1,7 @@
 import { getBrowser, openOptions } from "./browser";
 import { getConfiguration, isConfigurationComplete } from "./configuration";
 
-import { search } from "./linkding";
+import { search, getEntryUrl } from "./linkding";
 
 const browser = getBrowser();
 
@@ -28,14 +28,17 @@ function connected(p) {
       let config = getConfiguration();
       // Configuration is complete, execute a search on linkding
       search(m.searchTerm, { limit: config.resultNum })
-        .then((entries) => {
-          const feedSuggestions = entries.map((feed) => ({
-            url: feed.url,
-            title: feed.title || feed.url,
-            author: feed.feed.title,
-            date: feed.published_at,
-          }));
-          portFromCS.postMessage({
+        .then(async (entries) => {
+          const feedSuggestions = await Promise.all(
+            entries.map(async (feed) => ({
+              url: feed.url,
+              title: feed.title || feed.url,
+              author: feed.feed.title,
+              id: feed.id,
+              entryUrl: await getEntryUrl(config, feed.id),
+            }))
+          );
+          await portFromCS.postMessage({
             results: feedSuggestions,
             config: config,
           });

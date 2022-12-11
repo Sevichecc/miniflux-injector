@@ -117,7 +117,11 @@ port.onMessage.addListener(function (m) {
           <div class="description ${themeClass}">
             <span class="tags">
              <a> ${escapeHTML(feed.author)} </a>
-              <a> ${escapeHTML(feed.date)} </a>
+            <a
+              href="${feed.entryUrl}"
+              target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
+              rel="noopener"
+              >miniflux</a>
             </span>
           </div>
         </li>`;
