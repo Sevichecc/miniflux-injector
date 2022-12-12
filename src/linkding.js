@@ -45,6 +45,8 @@ export async function getMinifluxUrl(configuration, id) {
   }
   const data = await response.json();
   const { status } = data;
-  const url = `${configuration.baseUrl}/${status}/entry/${id}`;
+  const url = `${configuration.baseUrl}/${
+    status === "read" ? "history" : status
+  }/entry/${id}`;
   return url;
 }
