@@ -54,7 +54,7 @@
 
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
-    <label class="form-label" for="input-base-url">Base URL</label>
+    <label class="form-label" for="input-base-url">Base URL <span class="text-error">*</span></label> 
     <input
       class="form-input"
       type="text"
@@ -68,7 +68,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="form-label" for="input-token">API Keys</label>
+    <label class="form-label" for="input-token">API Keys <span class="text-error">*</span></label>
     <input
       class="form-input"
       type="password"
