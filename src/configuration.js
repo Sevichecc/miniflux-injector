@@ -11,6 +11,7 @@ export function getConfiguration() {
         openLinkType: "newTab",
         themeGoogle: "auto",
         themeDuckduckgo: "auto",
+        linkTo: "miniflux",
       };
   return config;
 }

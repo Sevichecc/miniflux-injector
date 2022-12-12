@@ -33,7 +33,7 @@ export async function testConnection(configuration) {
     .catch(() => false);
 }
 
-export async function getEntryUrl(configuration, id) {
+export async function getMinifluxUrl(configuration, id) {
   const response = await fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
     headers: {
       "X-Auth-Token": `${configuration.token}`,

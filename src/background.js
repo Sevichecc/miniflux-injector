@@ -1,7 +1,7 @@
 import { getBrowser, openOptions } from "./browser";
 import { getConfiguration, isConfigurationComplete } from "./configuration";
 
-import { search, getEntryUrl } from "./linkding";
+import { search, getMinifluxUrl } from "./linkding";
 
 const browser = getBrowser();
 
@@ -31,11 +31,13 @@ function connected(p) {
         .then(async (entries) => {
           const entrySuggestions = await Promise.all(
             entries.map(async (entry) => ({
-              url: entry.url,
+              url:
+                config.linkTo === "miniflux"
+                  ? await getMinifluxUrl(config, entry.id)
+                  : entry.url,
               title: entry.title || entry.url,
               author: entry.feed.title,
               id: entry.id,
-              entryUrl: await getEntryUrl(config, entry.id),
             }))
           );
           await portFromCS.postMessage({

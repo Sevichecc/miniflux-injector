@@ -8,6 +8,7 @@
   let openLinkType;
   let themeDuckduckgo;
   let themeGoogle;
+  let linkTo;
   let isSuccess;
   let isError;
 
@@ -19,6 +20,7 @@
     openLinkType = config.openLinkType;
     themeDuckduckgo = config.themeDuckduckgo;
     themeGoogle = config.themeGoogle;
+    linkTo = config.linkTo;
   }
 
   init();
@@ -31,6 +33,7 @@
       openLinkType,
       themeDuckduckgo,
       themeGoogle,
+      linkTo
     };
 
     const testResult = await testConnection(config);
@@ -172,6 +175,17 @@
           <input type="radio" bind:group={themeDuckduckgo} value="auto" />
           <i class="form-icon" />auto (default)
         </label>
+      </div>
+        <div class="form-group p-relative clearfix">
+          <div class="form-label float-left">Open Link in :</div>
+          <label class="form-radio form-inline float-right">
+            <input type="radio" bind:group={linkTo} value="miniflux" />
+            <i class="form-icon" />Miniflux
+          </label>
+          <label class="form-radio form-inline float-right">
+            <input type="radio" bind:group={linkTo} value="source" />
+            <i class="form-icon" />Source
+          </label>
       </div>
     </div>
   </div>
