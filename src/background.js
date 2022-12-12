@@ -31,10 +31,9 @@ function connected(p) {
         .then(async (entries) => {
           const entrySuggestions = await Promise.all(
             entries.map(async (entry) => ({
-              url:
-                config.linkTo === "miniflux"
-                  ? await getMinifluxUrl(config, entry.id)
-                  : entry.url,
+              url: config.toMiniflux
+                ? await getMinifluxUrl(config, entry.id)
+                : entry.url,
               title: entry.title || entry.url,
               author: entry.feed.title,
               id: entry.id,

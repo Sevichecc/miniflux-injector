@@ -8,7 +8,7 @@
   let openNewTab;
   let themeDuckduckgo;
   let themeGoogle;
-  let linkTo;
+  let  toMiniflux;
   let isSuccess;
   let isError;
 
@@ -20,7 +20,7 @@
     openNewTab = config.openNewTab;
     themeDuckduckgo = config.themeDuckduckgo;
     themeGoogle = config.themeGoogle;
-    linkTo = config.linkTo;
+     toMiniflux = config. toMiniflux;
   }
 
   init();
@@ -33,7 +33,7 @@
       openNewTab,
       themeDuckduckgo,
       themeGoogle,
-      linkTo
+       toMiniflux
     };
 
     const testResult = await testConnection(config);
@@ -49,8 +49,8 @@
   }
 </script>
 
-<h6>Configuration</h6>
-<div class="divider" />
+
+<span class="label col-12 mt-0 py-1 mb-2">Configuration</span>
 
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
@@ -64,7 +64,7 @@
       required
     />
     <div class="form-input-hint">
-      Your Miniflux server's URL, without / trailing slash
+      Your Miniflux server's URL, <strong>without</strong> / trailing slash
     </div>
   </div>
   <div class="form-group">
@@ -78,7 +78,7 @@
       required
     />
     <div class="form-input-hint">
-      Used to authenticate. Found on Miniflux/Settings/API-Keys.
+      Used to authenticate. Found on <samp>Settings/API-Keys.</samp> 
     </div>
   </div>
   <div class="form-group">
@@ -96,23 +96,27 @@
        High numbers could lead to worse performance
     </div>
   </div>
+  <div class="form-group">
+    <label class="form-switch">
+      <input type="checkbox"  id="open-new-tab" bind:checked={openNewTab}>
+      <i class="form-icon float-right"></i> Open Links in a New Tab
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="form-switch">
+      <input type="checkbox"  id="to-miniflux" bind:checked={toMiniflux}>
+      <i class="form-icon"></i> Open in Miniflux
+    </label>
+  </div>
   <div class="accordion">
     <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden />
-    <label class="accordion-header" for="accordion-1">
+    <label class="accordion-header text-small" for="accordion-1">
       <i class="icon icon-arrow-right mr-1" />
-      Advanced
+      Theme Settings
     </label>
     <div class="accordion-body">
-      <div class="form-group">
-        <label class="form-switch">
-          <input type="checkbox"  id="open-new-tab" bind:checked={openNewTab}>
-          <i class="form-icon"></i> Open Links in a New Tab
-        </label>
-      </div>
       <div class="form-group p-relative clearfix">
-        <div class="form-label">Theme of injection box</div>
-        <div class="divider" />
-        <div class="form-label float-left">google</div>
+        <div class="form-label float-left">Google</div>
         <label class="form-radio form-inline float-right">
           <input
             type="radio"
@@ -138,7 +142,7 @@
             bind:group={themeGoogle}
             value="auto"
           />
-          <i class="form-icon" />auto (default)
+          <i class="form-icon" />auto
         </label>
       </div>
       <div class="form-group p-relative clearfix">
@@ -153,24 +157,13 @@
         </label>
         <label class="form-radio form-inline float-right">
           <input type="radio" bind:group={themeDuckduckgo} value="auto" />
-          <i class="form-icon" />auto (default)
+          <i class="form-icon" />auto
         </label>
       </div>
-        <div class="form-group p-relative clearfix">
-          <div class="form-label float-left">Open Link in :</div>
-          <label class="form-radio form-inline float-right">
-            <input type="radio" bind:group={linkTo} value="miniflux" />
-            <i class="form-icon" />Miniflux
-          </label>
-          <label class="form-radio form-inline float-right">
-            <input type="radio" bind:group={linkTo} value="source" />
-            <i class="form-icon" />Source
-          </label>
-      </div>
+      <div class="divider" />
     </div>
+  
   </div>
-
-  <div class="divider" />
 
   <div class="button-row">
     {#if isSuccess}
@@ -195,11 +188,6 @@
       Save
     </button>
   </div>
-  <p>
-  This is a companion extension for the <a
-    href="https://github.com/sissbruecker/linkding">linkding</a
-  > bookmark service. Fork from
-</p>
 </form>
 
 <style>
