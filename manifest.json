@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "linkding injector",
-  "version": "1.2.0",
-  "description": "Injects search results from the linkding bookmark service into search pages like google and duckduckgo",
-  "homepage_url": "https://github.com/fivefold/linkding-injector.git",
+  "name": "Miniflux injector",
+  "version": "1.0.0",
+  "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
+  "homepage_url": "https://github.com/Sevichecc/miniflux-injector.git",
 
   "icons": {
-    "19": "icons/logo_19.png",
+    "16": "icons/logo_16.png",
     "32": "icons/logo_32.png",
     "48": "icons/logo_48.png",
     "96": "icons/logo_96.png",

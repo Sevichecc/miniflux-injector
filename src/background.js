@@ -21,7 +21,7 @@ function connected(p) {
     } else if (isConfigurationComplete() == false) {
       portFromCS.postMessage({
         message:
-          "Connection to your linkding instance is not configured yet! " +
+          "Connection to your Miniflux instance is not configured yet! " +
           "Please configure the extension in the <a class='openOptions'>options</a>.",
       });
     } else {

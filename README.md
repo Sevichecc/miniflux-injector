@@ -3,6 +3,7 @@
 Community browser extension for the self-hosted [linkding](https://github.com/sissbruecker/linkding) bookmark service.
 
 **Features**
+
 - When searching on a search engine the search term is also sent to your linkding instance and results are added in a new box in the sidebar right to the search engine results.
 - Supports [google](https://www.google.com/) and [duckduckgo](https://duckduckgo.com/) search engines
 - Automatic light or dark theme detection
@@ -39,6 +40,7 @@ Run the build as described below and then follow the instructions [here](https:/
 ## Build
 
 **Requirements**
+
 - Latest LTS Node version (v14)
 - Latest LTS NPM version (v6)
 - bash (on Linux) or powershell (on Windows)
@@ -47,14 +49,17 @@ Run the build as described below and then follow the instructions [here](https:/
 Internally, we use `web-ext` to bundle a distribution package for the extension for Firefox. You do not need to install `web-ext`. Note that `web-ext` will generate a zip file which can also be used for the Chrome Web Store.
 
 Then run the following script to generate a build (might need to make the file executable on Linux using `chmod +x build.sh`):
+
 ```bash
 ./build.sh # Linux
 ```
+
 ```powershell
 ./build.ps1 # Windows
 ```
 
 The script does:
+
 - Install all dependencies using NPM
 - Runs rollup to transpile and minify source files, with output written to the `build` directory
 - Run web-ext to package the extension for uploading to the Mozilla addon store

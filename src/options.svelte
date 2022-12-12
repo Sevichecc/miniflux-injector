@@ -5,7 +5,7 @@
   let baseUrl;
   let token;
   let resultNum;
-  let openLinkType;
+  let openNewTab;
   let themeDuckduckgo;
   let themeGoogle;
   let linkTo;
@@ -17,7 +17,7 @@
     baseUrl = config.baseUrl;
     token = config.token;
     resultNum = config.resultNum;
-    openLinkType = config.openLinkType;
+    openNewTab = config.openNewTab;
     themeDuckduckgo = config.themeDuckduckgo;
     themeGoogle = config.themeGoogle;
     linkTo = config.linkTo;
@@ -30,7 +30,7 @@
       baseUrl,
       token,
       resultNum,
-      openLinkType,
+      openNewTab,
       themeDuckduckgo,
       themeGoogle,
       linkTo
@@ -51,12 +51,7 @@
 
 <h6>Configuration</h6>
 <div class="divider" />
-<p>
-  This is a companion extension for the <a
-    href="https://github.com/sissbruecker/linkding">linkding</a
-  > bookmark service. Before you can start using it you have to configure some basic
-  settings, so that the extension can communicate with your linkding installation.
-</p>
+
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
     <label class="form-label" for="input-base-url">Base URL</label>
@@ -64,31 +59,31 @@
       class="form-input"
       type="text"
       id="input-base-url"
-      placeholder="https://linkding.mydomain.com"
+      placeholder="https://yourdomain.com"
       bind:value={baseUrl}
+      required
     />
     <div class="form-input-hint">
-      The base URL of your linkding installation, <b>without</b> the
-      <samp>/bookmark</samp> path or a trailing slash
+      Your Miniflux server's URL, without / trailing slash
     </div>
   </div>
   <div class="form-group">
-    <label class="form-label" for="input-token">API Authentication Token</label>
+    <label class="form-label" for="input-token">API Keys</label>
     <input
       class="form-input"
       type="password"
       id="input-token"
-      placeholder="Token"
+      placeholder="keys"
       bind:value={token}
+      required
     />
     <div class="form-input-hint">
-      Used to authenticate against the linkding API. You can find this on your
-      linkding settings page.
+      Used to authenticate. Found on Miniflux/Settings/API-Keys.
     </div>
   </div>
   <div class="form-group">
     <label class="form-label" for="input-search-num"
-      >Maximum number of search results
+      >Max search results
     </label>
     <input
       class="form-input"
@@ -98,40 +93,25 @@
       bind:value={resultNum}
     />
     <div class="form-input-hint">
-      The maximum number of search results. High numbers could lead to worse
-      performance.
+       High numbers could lead to worse performance
     </div>
   </div>
   <div class="accordion">
     <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden />
     <label class="accordion-header" for="accordion-1">
       <i class="icon icon-arrow-right mr-1" />
-      Advanced Settings
+      Advanced
     </label>
     <div class="accordion-body">
       <div class="form-group">
-        <div class="form-label">Default open link type</div>
-        <label class="form-radio">
-          <input
-            type="radio"
-            id="input-link-type"
-            bind:group={openLinkType}
-            value="newTab"
-          />
-          <i class="form-icon" />Open links in a new tab (default)
-        </label>
-        <label class="form-radio">
-          <input
-            type="radio"
-            id="input-link-type"
-            bind:group={openLinkType}
-            value="sameTab"
-          />
-          <i class="form-icon" />Open links in the same tab
+        <label class="form-switch">
+          <input type="checkbox"  id="open-new-tab" bind:checked={openNewTab}>
+          <i class="form-icon"></i> Open Links in a New Tab
         </label>
       </div>
       <div class="form-group p-relative clearfix">
         <div class="form-label">Theme of injection box</div>
+        <div class="divider" />
         <div class="form-label float-left">google</div>
         <label class="form-radio form-inline float-right">
           <input
@@ -215,6 +195,11 @@
       Save
     </button>
   </div>
+  <p>
+  This is a companion extension for the <a
+    href="https://github.com/sissbruecker/linkding">linkding</a
+  > bookmark service. Fork from
+</p>
 </form>
 
 <style>

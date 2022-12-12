@@ -8,7 +8,7 @@ export function getConfiguration() {
         baseUrl: "",
         token: "",
         resultNum: 10,
-        openLinkType: "newTab",
+        openNewTab: true,
         themeGoogle: "auto",
         themeDuckduckgo: "auto",
         linkTo: "source",

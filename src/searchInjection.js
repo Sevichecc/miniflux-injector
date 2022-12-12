@@ -109,7 +109,7 @@ port.onMessage.addListener(function (m) {
           <div class="title">
             <a
               href="${entry.url}"
-              target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
+              target=${m.config.openNewTab ? "_blank" : "_self"}
               rel="noopener"
               >${escapeHTML(entry.title)}</a
             >
