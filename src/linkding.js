@@ -43,8 +43,7 @@ export async function getMinifluxUrl(configuration, id) {
     Promise.reject(response);
     throw new Error("Failed to fetch URL");
   }
-  const data = await response.json();
-  const { status } = data;
+  const { status } = await response.json();
   const url = `${configuration.baseUrl}/${
     status === "read" ? "history" : status
   }/entry/${id}`;
