@@ -12,9 +12,9 @@ export async function search(text, options) {
         "X-Auth-Token": `${configuration.token}`,
       },
     }
-  ).then((response) => {
+  ).then(async (response) => {
     if (response.status === 200) {
-      return response.json().then((body) => body.entries);
+      return response.json().then((data) => data.entries);
     }
     return Promise.reject(`Error searching bookmarks: ${response.statusText}`);
   });
@@ -29,7 +29,7 @@ export async function testConnection(configuration) {
     .then((response) =>
       response.status === 200 ? response.json() : Promise.reject(response)
     )
-    .then((body) => !!body.entries)
+    .then((data) => !!data.entries)
     .catch(() => false);
 }
 
@@ -43,8 +43,8 @@ export async function getEntryUrl(configuration, id) {
     Promise.reject(response);
     throw new Error("Failed to fetch URL");
   }
-  const body = await response.json();
-  const { status } = body;
+  const data = await response.json();
+  const { status } = data;
   const url = `${configuration.baseUrl}/${status}/entry/${id}`;
   return url;
 }

@@ -103,20 +103,20 @@ port.onMessage.addListener(function (m) {
 
     htmlString += `<ul id="bookmark-list">`;
 
-    m.results.forEach((feed) => {
+    m.results.forEach((entry) => {
       htmlString += `
         <li>
           <div class="title">
             <a
-              href="${feed.url}"
+              href="${entry.url}"
               target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
               rel="noopener"
-              >${escapeHTML(feed.title)}</a
+              >${escapeHTML(entry.title)}</a
             >
           </div>
           <div class="description ${themeClass}">
             <span class="tags">
-             <a> ${escapeHTML(feed.author)} </a>
+             <a> ${escapeHTML(entry.author)} </a>
             <a
               href="${feed.entryUrl}"
               target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
@@ -128,7 +128,7 @@ port.onMessage.addListener(function (m) {
     });
     htmlString += `</ul></div>`;
   } else {
-    console.error("linkding injector: no message and no search results");
+    console.error("miniflux injector: no message and no search results");
     return;
   }
 

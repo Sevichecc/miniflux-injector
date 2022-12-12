@@ -29,17 +29,17 @@ function connected(p) {
       // Configuration is complete, execute a search on linkding
       search(m.searchTerm, { limit: config.resultNum })
         .then(async (entries) => {
-          const feedSuggestions = await Promise.all(
-            entries.map(async (feed) => ({
-              url: feed.url,
-              title: feed.title || feed.url,
-              author: feed.feed.title,
-              id: feed.id,
-              entryUrl: await getEntryUrl(config, feed.id),
+          const entrySuggestions = await Promise.all(
+            entries.map(async (entry) => ({
+              url: entry.url,
+              title: entry.title || entry.url,
+              author: entry.feed.title,
+              id: entry.id,
+              entryUrl: await getEntryUrl(config, entry.id),
             }))
           );
           await portFromCS.postMessage({
-            results: feedSuggestions,
+            results: entrySuggestions,
             config: config,
           });
         })
