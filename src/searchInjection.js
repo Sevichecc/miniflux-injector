@@ -7,7 +7,7 @@ function getBrowser() {
 }
 
 /* Sanitise input to prevent unwanted injection of html or even javascript 
-  through linkding search results, e.g. in the bookmark title or description 
+  through miniflux search results, e.g. in the bookmark title or description 
 */
 function escapeHTML(str) {
   let p = document.createElement("p");
@@ -40,7 +40,7 @@ port.onMessage.addListener(function (m) {
       <div id="navbar">
         <a id="ld-logo">  
           <img src=${browser.runtime.getURL("icons/logo.svg")} />
-          <h1>linkding injector</h1>
+          <h1>miniflux injector</h1>
         </a>
         <a id="ld-options" class="openOptions">
           <img class="ld-settings" src=${browser.runtime.getURL(
@@ -76,17 +76,17 @@ port.onMessage.addListener(function (m) {
       themeClass = theme; // "dark" for dark theme, "light" for light theme
     }
 
-    // URL of the configured linkding instance (including search term)
-    let linkdingUrl =
+    // URL of the configured miniflux instance (including search term)
+    let minifluxUrl =
       m.config.baseUrl +
       (searchTerm.length > 0 ? `/v1/entries?search=${searchTerm}` : "/");
 
     htmlString += `
     <div id="bookmark-list-container" class="${searchEngine} ${themeClass}">
       <div id="navbar">
-        <a id="ld-logo" href="${linkdingUrl}">  
+        <a id="ld-logo" href="${minifluxUrl}">  
           <img src=${browser.runtime.getURL("icons/logo.svg")} />
-          <h1>linkding injector</h1>
+          <h1>miniflux injector</h1>
         </a>
         <div id="results_amount">
           Found <span>${m.results.length}</span> ${

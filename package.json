@@ -1,5 +1,5 @@
 {
-  "name": "linkding-injector",
+  "name": "miniflux-injector",
   "version": "1.2.0",
   "description": "Injects search results from the linkding bookmark service into search pages like google and duckduckgo",
   "license": "MIT",

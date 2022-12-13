@@ -1,6 +1,6 @@
 <script>
   import { getConfiguration, saveConfiguration } from "./configuration";
-  import { testConnection } from "./linkding";
+  import { testConnection } from "./miniflux";
 
   let baseUrl;
   let token;
@@ -51,7 +51,7 @@
 
 
 <h6 class="col-12 mt-0 py-1 mb-2">Configuration</h6>
-  <div class="divider" />
+<div class="divider" />
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
     <label class="form-label" for="input-base-url">Base URL <span class="text-error">*</span></label> 

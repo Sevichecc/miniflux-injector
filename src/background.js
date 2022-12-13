@@ -1,7 +1,7 @@
-import { getBrowser, openOptions } from "./browser";
-import { getConfiguration, isConfigurationComplete } from "./configuration";
+import { getBrowser, openOptions } from './browser';
+import { getConfiguration, isConfigurationComplete } from './configuration';
 
-import { search, getMinifluxUrl } from "./linkding";
+import { search, getMinifluxUrl } from './miniflux';
 
 const browser = getBrowser();
 
@@ -11,22 +11,22 @@ let portFromCS;
 function connected(p) {
   portFromCS = p;
 
-  // When the content script sends the search term, search on linkding and
+  // When the content script sends the search term, search on miniflux and
   // return results
   portFromCS.onMessage.addListener(function (m) {
-    if (m.action == "openOptions") {
+    if (m.action == 'openOptions') {
       // Open the add on options if the user clicks on the options link in the
       // injected box
       openOptions();
     } else if (isConfigurationComplete() == false) {
       portFromCS.postMessage({
         message:
-          "Connection to your Miniflux instance is not configured yet! " +
+          'Connection to your Miniflux instance is not configured yet! ' +
           "Please configure the extension in the <a class='openOptions'>options</a>.",
       });
     } else {
       let config = getConfiguration();
-      // Configuration is complete, execute a search on linkding
+      // Configuration is complete, execute a search on miniflux
       search(m.searchTerm, { limit: config.resultNum })
         .then(async (entries) => {
           const entrySuggestions = await Promise.all(
