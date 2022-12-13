@@ -50,8 +50,8 @@
 </script>
 
 
-<span class="label col-12 mt-0 py-1 mb-2">Configuration</span>
-
+<h6 class="col-12 mt-0 py-1 mb-2">Configuration</h6>
+  <div class="divider" />
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
     <label class="form-label" for="input-base-url">Base URL <span class="text-error">*</span></label> 
