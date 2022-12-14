@@ -18,24 +18,29 @@ div#bookmark-list-container {
   */
   &.dark,
   .dark-bg &:not(.light),
-  body[data-dt="1"] &:not(.light) {
+  body[data-dt='1'] &:not(.light) {
     background-color: $duckduckgo-bg;
     border: none;
     color: $primary-color-dark;
 
-    a {
+    #mf-title {
       color: $primary-color-dark;
     }
 
-    #navbar #results_amount span {
-      color: $alternative-color !important;
+    #mf-logo img {
+      filter: invert(100%);
     }
 
-    .tags a {
-      color: $alternative-color;
+    #navbar #mf-results_amount span {
+      color: $primary-color-dark !important;
+    }
+
+    #more-links a {
+      color: $alternative-color-dark-light-theme;
     }
   }
-  body[data-dt="1"] &:not(.light) {
+
+  body[data-dt='1'] &:not(.light) {
     background-color: $google-bg;
     border: 1px solid $google-border-color-dark;
   }
@@ -50,22 +55,27 @@ div#bookmark-list-container {
       font-size: 0.9em;
     }
 
-    #navbar #ld-logo {
+    #navbar #mf-logo {
       width: 45%;
     }
   }
 
-  a {
+  #mf-title {
     color: $primary-color;
     :hover {
-      color: $link-color-dark;
+      color: $link-color;
       cursor: pointer;
     }
   }
 
-  .tags a:hover {
-    text-decoration: none;
-    cursor: default;
+  #more-links {
+    text-align: center;
+    a {
+      color: $alternative-color-light-theme;
+      :hover {
+        cursor: pointer;
+      }
+    }
   }
 
   #error-message a,
@@ -77,7 +87,6 @@ div#bookmark-list-container {
   ul > li {
     margin-top: 0.4rem;
   }
-
   #navbar {
     display: flex;
     flex-flow: row nowrap;
@@ -85,11 +94,10 @@ div#bookmark-list-container {
     align-items: center;
     margin-bottom: 12px;
 
-    #ld-logo {
+    #mf-logo {
       display: flex;
       align-items: center;
       font-size: 1.2rem;
-      color: inherit;
 
       h1 {
         text-transform: uppercase;
@@ -98,14 +106,15 @@ div#bookmark-list-container {
         margin: 0 0 0 8px;
       }
       img {
-        width: 28px;
-        height: 28px;
+        width: auto;
+        height: 22px;
       }
     }
 
-    #results_amount {
+    #mf-results_amount {
+      color: $gray-color;
       span {
-        color: $alternative-color-light-theme;
+        color: $primary-color;
       }
     }
   }

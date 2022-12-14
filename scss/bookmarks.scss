@@ -12,7 +12,7 @@ ul#bookmark-list {
 
     &.dark,
     .dark-bg &:not(.light),
-    body[data-dt="1"] &:not(.light) {
+    body[data-dt='1'] &:not(.light) {
       color: $gray-color-dark;
     }
 
@@ -21,4 +21,8 @@ ul#bookmark-list {
       color: $alternative-color;
     }
   }
+}
+
+ul {
+  list-style: none;
 }
