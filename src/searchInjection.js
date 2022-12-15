@@ -86,7 +86,9 @@ port.onMessage.addListener(function (m) {
       <div id="navbar">
         <span id="mf-logo">  
           <img src=${browser.runtime.getURL(
-            'icons/logo_full.svg'
+            searchEngine === 'google'
+              ? 'icons/logo_full_google.svg'
+              : 'icons/logo_full.svg'
           )} alt="miniflux injector"/>
         </span>
         <div id="mf-results_amount">
