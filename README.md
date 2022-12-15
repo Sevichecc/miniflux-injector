@@ -76,4 +76,9 @@ The packaged extension can be found in the `web-ext-artifacts` folder.
 
 ## Acknowledgements
 
-This extension reuses and adapts code from the [official miniflux extension](https://github.com/sissbruecker/miniflux-extension)
+- This extension reuses and adapts code from the [official miniflux extension](https://github.com/sissbruecker/miniflux-extension)
+
+Logo:
+
+- [Miniflux logo](https://github.com/miniflux/logo) - [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+- [Ysabeau](https://github.com/CatharsisFonts/Ysabeau) - [OFL-1.1 license](https://github.com/CatharsisFonts/Ysabeau/blob/master/OFL.txt)
