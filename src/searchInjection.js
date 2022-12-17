@@ -111,7 +111,7 @@ port.onMessage.addListener(function (m) {
         <li>
           <div class="title">
             <a
-              href="${entry.baseUrl}"
+              href="${entry.url}"
               target=${m.config.openNewTab ? '_blank' : '_self'}
               rel="noopener"
               id="mf-title"
