@@ -1,6 +1,6 @@
 {
   "name": "miniflux-injector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
   "license": "MIT",
   "author": "Jakob Essbüchl,Seviche",

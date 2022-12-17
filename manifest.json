@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Miniflux injector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
   "homepage_url": "https://github.com/Sevichecc/miniflux-injector.git",
 
