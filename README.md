@@ -17,7 +17,8 @@ Fork from [linkding-injector](https://github.com/Fivefold/linkding-injector)
 ### 1. Create a Miniflux API Key
 
 After installation the extension needs to be configured and connected to your Miniflux instance, create your API key in `http://your-miniflux-domain/keys`, then copy that API keys
-![API-Key](/docs/API.png =400)
+
+![API-Key](/docs/API.png)
 
 ### 2. Setting the extension setting
 
