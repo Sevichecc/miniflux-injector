@@ -36,7 +36,7 @@ Once the extension is properly configured, miniflux search results will show in 
 ## Installation
 
 - FireFox: [Mozilla Addon Store](https://addons.mozilla.org/zh-CN/firefox/addon/miniflux-injector/)
-- Chrome : down the latest releast then load in the extention management.
+- Chrome : download the latest release then load it in the extention management.
 
 ## Build
 
