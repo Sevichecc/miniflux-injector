@@ -17,7 +17,7 @@ Fork from [linkding-injector](https://github.com/Fivefold/linkding-injector)
 ### 1. Create a Miniflux API Key
 
 After installation the extension needs to be configured and connected to your Miniflux instance, create your API key in `http://your-miniflux-domain/keys`, then copy that API keys
-![API-Key](/docs/API.png 'Miniflux-API-Keys')
+![API-Key](/docs/API.png =400)
 
 ### 2. Setting the extension setting
 
@@ -33,15 +33,10 @@ Once the extension is properly configured, miniflux search results will show in 
 ![duckduckgo](/docs/duckduckgo.png 'Duckduckgo')
 ![google](/docs/google.png 'google')
 
-## Manual installation
+## Installation
 
-### Firefox
-
-Run the build as described below and then follow the instructions [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing) to load it into Firefox.
-
-### Chrome
-
-Run the build as described below and then follow the instructions [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/#manifest) to load it into Chrome.
+- FireFox: [Mozilla Addon Store](https://addons.mozilla.org/zh-CN/firefox/addon/miniflux-injector/)
+- Chrome : down the latest releast then load in the extention management.
 
 ## Build
 
