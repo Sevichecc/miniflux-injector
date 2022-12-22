@@ -25,19 +25,24 @@ browser.omnibox.onInputStarted.addListener(async () => {
   }
 });
 
-browser.omnibox.onInputChanged.addListener((text, suggest) => {
+browser.omnibox.onInputChanged.addListener(async (text, suggest) => {
   if (!api) {
     return;
   }
+  let config = getConfiguration();
 
   api
-    .search(text, { limit: null })
-    .then((entries) => {
-      const entrySuggestions = entries.map((entry) => ({
-        content: entry.url,
-        description: entry.feed.title,
-      }));
-      suggest(entrySuggestions);
+    .search(text, { limit: config.resultNum })
+    .then(async (entries) => {
+      const entrySuggestions = await Promise.all(
+        entries.map(async (entry) => ({
+          content: config.toMiniflux
+            ? await api.getMinifluxUrl(entry.id)
+            : entry.url,
+          description: entry.title,
+        }))
+      );
+      await suggest(entrySuggestions);
     })
     .catch((error) => {
       console.error(error);
