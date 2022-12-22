@@ -34,6 +34,7 @@ Once the extension is properly configured, miniflux search results will show in 
 
 ![duckduckgo](/docs/duckduckgo.png 'Duckduckgo')
 ![google](/docs/google.png 'google')
+![](/docs/omnibox.mov)
 
 ## Installation
 
