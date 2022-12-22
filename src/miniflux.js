@@ -43,34 +43,20 @@ export class MinifluxApi {
 
   async getMinifluxUrl(id) {
     const configuration = this.configuration;
-    // const response = await fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
-    //   headers: {
-    //     'X-Auth-Token': `${configuration.token}`,
-    //   },
-    // });
-
-    // if (response.status !== 200) {
-    //   Promise.reject(response);
-    //   throw new Error('Failed to fetch URL');
-    // }
-    // const { status } = await response.json();
-    // const url = `${configuration.baseUrl}/${
-    //   status === 'read' ? 'history' : status
-    // }/entry/${id}`;
-    // return url;
-    return fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
+    const response = await fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
       headers: {
         'X-Auth-Token': `${configuration.token}`,
       },
-    })
-      .then((response) =>
-        response === 200 ? response.json() : Promise.reject(response)
-      )
-      .then(({ status }) => {
-        return (url = `${configuration.baseUrl}/${
-          status === 'read' ? 'history' : status
-        }/entry/${id}`);
-      })
-      .catch((err) => console.err(err));
+    });
+
+    if (response.status !== 200) {
+      Promise.reject(response);
+      throw new Error('Failed to fetch URL');
+    }
+    const { status } = await response.json();
+    const url = `${configuration.baseUrl}/${
+      status === 'read' ? 'history' : status
+    }/entry/${id}`;
+    return url;
   }
 }
