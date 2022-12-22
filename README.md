@@ -11,6 +11,7 @@ Fork from [linkding-injector](https://github.com/Fivefold/linkding-injector)
 - Automatic light or dark theme detection
 - Open search result in Miniflux
   Works with: Firefox, Chrome
+- Omnibox support (type keyword 'mj' in searchbar to search in Miniflux)
 
 ## Usage
 
