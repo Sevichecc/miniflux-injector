@@ -1,6 +1,6 @@
 <script>
   import { getConfiguration, saveConfiguration } from "./configuration";
-  import { testConnection } from "./miniflux";
+  import { MinifluxApi } from "./miniflux";
 
   let baseUrl;
   let token;
@@ -8,7 +8,7 @@
   let openNewTab;
   let themeDuckduckgo;
   let themeGoogle;
-  let  toMiniflux;
+  let toMiniflux;
   let isSuccess;
   let isError;
 
@@ -20,7 +20,7 @@
     openNewTab = config.openNewTab;
     themeDuckduckgo = config.themeDuckduckgo;
     themeGoogle = config.themeGoogle;
-     toMiniflux = config. toMiniflux;
+    toMiniflux = config. toMiniflux;
   }
 
   init();
@@ -33,10 +33,10 @@
       openNewTab,
       themeDuckduckgo,
       themeGoogle,
-       toMiniflux
+      toMiniflux
     };
 
-    const testResult = await testConnection(config);
+    const testResult = await new MinifluxApi(config).testConnection(config);
 
     if (testResult) {
       saveConfiguration(config);

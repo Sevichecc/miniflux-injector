@@ -17,6 +17,10 @@
     "scripts": ["build/background.js"]
   },
 
+  "omnibox": {
+    "keyword": "mj"
+  },
+
   "content_scripts": [
     {
       "matches": ["*://duckduckgo.com/*"],
