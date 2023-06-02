@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Update dependencies
-npm install
+pnpm install
 
 # Run rollup build
-npm run build
+pnpm run build
 
 # Lint extension, while excluding dev files
 npx web-ext lint --ignore-files .idea dist docs src web-ext-artifacts scss .gitignore *.sh *.ps1 *.iml *.js *.lock
