@@ -1,62 +1,60 @@
 export class MinifluxApi {
   constructor(configuration) {
-    this.configuration = configuration;
+    this.configuration = configuration
   }
 
   async search(text, options) {
-    const configuration = this.configuration;
-    const q = encodeURIComponent(text);
-    const limit = options.limit;
+    const { baseUrl } = this.configuration
+    const q = encodeURIComponent(text)
+    const limit = options.limit
 
-    return fetch(
-      limit
-        ? `${configuration.baseUrl}/v1/entries?search=${q}&limit=${limit}`
-        : `${configuration.baseUrl}/v1/entries?search=${q}`,
-      {
-        headers: {
-          'X-Auth-Token': `${configuration.token}`,
-        },
-      }
-    ).then(async (response) => {
-      if (response.status === 200) {
-        return response.json().then((data) => data.entries);
-      }
-      return Promise.reject(
-        `Error searching bookmarks: ${response.statusText}`
-      );
-    });
+    const url = `${baseUrl}/v1/entries?search=${q}${
+      limit ? `&limit=${limit}` : ''
+    }`
+
+    const response = await this.fetchWithHeaders(url)
+
+    if (response.status === 200) {
+      const data = await response.json()
+      return data.entries
+    }
+
+    throw new Error(`Error searching bookmarks: ${response.statusText}`)
   }
 
   async testConnection() {
-    const configuration = this.configuration;
-    return fetch(`${configuration.baseUrl}/v1/entries?limit=1`, {
-      headers: {
-        'X-Auth-Token': `${configuration.token}`,
-      },
-    })
-      .then((response) =>
-        response.status === 200 ? response.json() : Promise.reject(response)
-      )
-      .then((data) => !!data.entries)
-      .catch(() => false);
+    const { baseUrl } = this.configuration
+    const url = `${baseUrl}/v1/entries?limit=1`
+
+    const response = await this.fetchWithHeaders(url)
+
+    if (response.status === 200) {
+      const data = await response.json()
+      return !!data.entries
+    }
+
+    return false
   }
 
   async getMinifluxUrl(id) {
-    const configuration = this.configuration;
-    const response = await fetch(`${configuration.baseUrl}/v1/entries/${id}`, {
-      headers: {
-        'X-Auth-Token': `${configuration.token}`,
-      },
-    });
+    const { baseUrl } = this.configuration
+    const url = `${baseUrl}/v1/entries/${id}`
+
+    const response = await this.fetchWithHeaders(url)
 
     if (response.status !== 200) {
-      Promise.reject(response);
-      throw new Error('Failed to fetch URL');
+      throw new Error('Failed to fetch URL')
     }
-    const { status } = await response.json();
-    const url = `${configuration.baseUrl}/${
-      status === 'read' ? 'history' : status
-    }/entry/${id}`;
-    return url;
+
+    const { status } = await response.json()
+    return `${baseUrl}/${status === 'read' ? 'history' : status}/entry/${id}`
+  }
+
+  async fetchWithHeaders(url ) {
+    const { token } = this.configuration
+     const headers = {
+       'X-Auth-Token': token,
+     }
+    return fetch(url, { headers })
   }
 }
