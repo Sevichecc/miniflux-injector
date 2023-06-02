@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Miniflux injector",
-  "version": "2.0.0",
-  "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
-  "homepage_url": "https://github.com/Sevichecc/miniflux-injector.git",
+  "name": "linkding injector",
+  "version": "1.3.2",
+  "description": "Injects search results from the linkding bookmark service into search pages like google and duckduckgo",
+  "homepage_url": "https://github.com/fivefold/linkding-injector.git",
 
   "icons": {
-    "16": "icons/logo_16.png",
+    "19": "icons/logo_19.png",
     "32": "icons/logo_32.png",
     "48": "icons/logo_48.png",
     "96": "icons/logo_96.png",
@@ -17,13 +17,19 @@
     "scripts": ["build/background.js"]
   },
 
-  "omnibox": {
-    "keyword": "mj"
-  },
-
   "content_scripts": [
     {
       "matches": ["*://duckduckgo.com/*"],
+      "css": ["build/searchInjection.css"],
+      "js": ["build/searchInjection.js"]
+    },
+    {
+      "matches": ["*://search.brave.com/*"],
+      "css": ["build/searchInjection.css"],
+      "js": ["build/searchInjection.js"]
+    },
+    {
+      "matches": ["*://*/search?*", "*://*/search"],
       "css": ["build/searchInjection.css"],
       "js": ["build/searchInjection.js"]
     },
@@ -231,5 +237,5 @@
 
   "web_accessible_resources": ["icons/*.png", "icons/*.svg"],
 
-  "permissions": ["https://*/*", "http://*/*"]
+  "permissions": ["https://*/*", "http://*/*", "storage"]
 }

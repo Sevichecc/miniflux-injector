@@ -1,26 +1,28 @@
 <script>
   import { getConfiguration, saveConfiguration } from "./configuration";
-  import { MinifluxApi } from "./miniflux";
+  import { LinkdingApi } from "./linkding";
 
   let baseUrl;
   let token;
   let resultNum;
-  let openNewTab;
+  let openLinkType;
   let themeDuckduckgo;
   let themeGoogle;
-  let toMiniflux;
+  let themeBrave;
+  let themeSearx;
   let isSuccess;
   let isError;
 
-  function init() {
-    const config = getConfiguration();
+  async function init() {
+    const config = await getConfiguration();
     baseUrl = config.baseUrl;
     token = config.token;
     resultNum = config.resultNum;
-    openNewTab = config.openNewTab;
+    openLinkType = config.openLinkType;
     themeDuckduckgo = config.themeDuckduckgo;
     themeGoogle = config.themeGoogle;
-    toMiniflux = config. toMiniflux;
+    themeBrave = config.themeBrave;
+    themeSearx = config.themeSearx;
   }
 
   init();
@@ -30,16 +32,17 @@
       baseUrl,
       token,
       resultNum,
-      openNewTab,
+      openLinkType,
       themeDuckduckgo,
       themeGoogle,
-      toMiniflux
+      themeBrave,
+      themeSearx,
     };
 
-    const testResult = await new MinifluxApi(config).testConnection(config);
+    const testResult = await new LinkdingApi(config).testConnection(config);
 
     if (testResult) {
-      saveConfiguration(config);
+      await saveConfiguration(config);
       isError = false;
       isSuccess = true;
     } else {
@@ -49,41 +52,50 @@
   }
 </script>
 
-
-<h6 class="col-12 mt-0 py-1 mb-2">Configuration</h6>
+<h6>Configuration</h6>
 <div class="divider" />
+<p>
+  This is a companion extension for the <a
+    href="https://github.com/sissbruecker/linkding">linkding</a
+  > bookmark service. Before you can start using it you have to configure some basic
+  settings, so that the extension can communicate with your linkding installation.
+</p>
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
-    <label class="form-label" for="input-base-url">Base URL <span class="text-error">*</span></label> 
+    <label class="form-label" for="input-base-url"
+      >Base URL <span class="text-error">*</span></label
+    >
     <input
       class="form-input"
       type="text"
       id="input-base-url"
-      placeholder="https://yourdomain.com"
+      placeholder="https://linkding.mydomain.com"
       bind:value={baseUrl}
-      required
     />
     <div class="form-input-hint">
-      Your Miniflux server's URL, <strong>without</strong> / trailing slash
+      The base URL of your linkding installation, <b>without</b> the
+      <samp>/bookmark</samp> path or a trailing slash
     </div>
   </div>
   <div class="form-group">
-    <label class="form-label" for="input-token">API Keys <span class="text-error">*</span></label>
+    <label class="form-label" for="input-token"
+      >API Authentication Token <span class="text-error">*</span></label
+    >
     <input
       class="form-input"
       type="password"
       id="input-token"
-      placeholder="keys"
+      placeholder="Token"
       bind:value={token}
-      required
     />
     <div class="form-input-hint">
-      Used to authenticate. Found on <samp>Settings/API-Keys.</samp> 
+      Used to authenticate against the linkding API. You can find this on your
+      linkding settings page.
     </div>
   </div>
   <div class="form-group">
     <label class="form-label" for="input-search-num"
-      >Max search results
+      >Maximum number of search results
     </label>
     <input
       class="form-input"
@@ -93,30 +105,41 @@
       bind:value={resultNum}
     />
     <div class="form-input-hint">
-       High numbers could lead to worse performance
+      The maximum number of search results. High numbers could lead to worse
+      performance.
     </div>
-  </div>
-  <div class="form-group">
-    <label class="form-switch">
-      <input type="checkbox"  id="open-new-tab" bind:checked={openNewTab}>
-      <i class="form-icon float-right"></i> Open Links in a New Tab
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="form-switch">
-      <input type="checkbox"  id="to-miniflux" bind:checked={toMiniflux}>
-      <i class="form-icon"></i> Open in Miniflux
-    </label>
   </div>
   <div class="accordion">
     <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden />
-    <label class="accordion-header text-small" for="accordion-1">
+    <label class="accordion-header" for="accordion-1">
       <i class="icon icon-arrow-right mr-1" />
-      Theme Settings
+      Advanced Settings
     </label>
     <div class="accordion-body">
+      <div class="form-group">
+        <div class="form-label">Default open link type</div>
+        <label class="form-radio">
+          <input
+            type="radio"
+            id="input-link-type"
+            bind:group={openLinkType}
+            value="newTab"
+          />
+          <i class="form-icon" />Open links in a new tab (default)
+        </label>
+        <label class="form-radio">
+          <input
+            type="radio"
+            id="input-link-type"
+            bind:group={openLinkType}
+            value="sameTab"
+          />
+          <i class="form-icon" />Open links in the same tab
+        </label>
+      </div>
       <div class="form-group p-relative clearfix">
-        <div class="form-label float-left">Google</div>
+        <div class="form-label">Theme of injection box</div>
+        <div class="form-label float-left">google</div>
         <label class="form-radio form-inline float-right">
           <input
             type="radio"
@@ -142,7 +165,7 @@
             bind:group={themeGoogle}
             value="auto"
           />
-          <i class="form-icon" />auto
+          <i class="form-icon" />auto (default)
         </label>
       </div>
       <div class="form-group p-relative clearfix">
@@ -157,13 +180,47 @@
         </label>
         <label class="form-radio form-inline float-right">
           <input type="radio" bind:group={themeDuckduckgo} value="auto" />
-          <i class="form-icon" />auto
+          <i class="form-icon" />auto (default)
         </label>
       </div>
-      <div class="divider" />
+      <div class="form-group p-relative clearfix">
+        <div class="form-label float-left">Brave Search†</div>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="light" />
+          <i class="form-icon" />light
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="dark" />
+          <i class="form-icon" />dark
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="auto" />
+          <i class="form-icon" />auto (default)
+        </label>
+      </div>
+      <div class="form-group p-relative clearfix">
+        <div class="form-label float-left">SearX/SearXNG†</div>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="light" />
+          <i class="form-icon" />light
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="dark" />
+          <i class="form-icon" />dark
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="auto" />
+          <i class="form-icon" />auto (default)
+        </label>
+      </div>
+      <div class="form-input-hint">
+        † Automatic theme detection may fail with these search engines unless
+        you set a specific theme (not 'system') in the search engine settings.
+      </div>
     </div>
-  
   </div>
+
+  <div class="divider" />
 
   <div class="button-row">
     {#if isSuccess}

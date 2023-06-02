@@ -1,4 +1,4 @@
-function isChrome() {
+export function isChrome() {
   return typeof chrome !== "undefined";
 }
 
@@ -6,26 +6,20 @@ export function getBrowser() {
   return isChrome() ? chrome : browser;
 }
 
-export async function getCurrentTabInfo() {
-  const tabsPromise = isChrome()
-    ? new Promise((resolve) =>
-        getBrowser().tabs.query(
-          {
-            active: true,
-            currentWindow: true,
-          },
-          resolve
-        )
-      )
-    : getBrowser().tabs.query({ active: true, currentWindow: true });
-
-  const tabs = await tabsPromise;
-  const tab = tabs && tabs[0];
-
-  return {
-    url: tab ? tab.url : "",
-    title: tab ? tab.title : "",
-  };
+export function getStorage() {
+  if (
+    typeof browser !== "undefined" &&
+    typeof browser.storage !== "undefined"
+  ) {
+    return browser.storage.local;
+  } else if (
+    typeof chrome !== "undefined" &&
+    typeof chrome.storage !== "undefined"
+  ) {
+    return chrome.storage.local;
+  } else {
+    throw new Error("Storage API not found.");
+  }
 }
 
 export function openOptions() {
@@ -36,7 +30,7 @@ export function openOptions() {
   opened and closed without saving options. The background script port closes
   seemingly indefinitely. The extension needs to be reloaded to fix it.
 
-  Since miniflux injector does not use the svelte popup from miniflux extension
+  Since linkding injector does not use the svelte popup from linkding extension
   window.close can be safely omitted because there's no window to close
   */
 }

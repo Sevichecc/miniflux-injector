@@ -1,5 +1,5 @@
 function isChrome() {
-  return typeof chrome !== 'undefined';
+  return typeof chrome !== "undefined";
 }
 
 function getBrowser() {
@@ -7,44 +7,50 @@ function getBrowser() {
 }
 
 /* Sanitise input to prevent unwanted injection of html or even javascript 
-  through miniflux search results, e.g. in the bookmark title or description 
+  through linkding search results, e.g. in the bookmark title or description 
 */
 function escapeHTML(str) {
-  let p = document.createElement('p');
+  let p = document.createElement("p");
   p.appendChild(document.createTextNode(str));
   return p.innerHTML;
 }
 
 const browser = getBrowser();
 
-let port = browser.runtime.connect({ name: 'port-from-cs' });
+const port = browser.runtime.connect({ name: "port-from-cs" });
 let searchEngine;
 if (document.location.hostname.match(/duckduckgo/)) {
-  searchEngine = 'duckduckgo';
+  searchEngine = "duckduckgo";
 } else if (document.location.hostname.match(/google/)) {
-  searchEngine = 'google';
+  searchEngine = "google";
+} else if (document.location.hostname.match(/search\.brave\.com/)) {
+  searchEngine = "brave";
+} else if (document.location.href.match(/http.?:\/\/.+\/search/)) {
+  searchEngine = "searx";
+} else {
+  console.debug("Linkding-Injector extension: no search engine found.");
 }
 
 // When background script answers with results, construct html for the result box
 port.onMessage.addListener(function (m) {
   const parser = new DOMParser();
-  let theme, themeClass;
-  let htmlString = '';
+  let themeClass;
+  let htmlString = "";
   let html;
 
   // In case we don't get results, but a message from the background script,
   // display it. This is the case before proper configuration
-  if ('message' in m) {
+  if ("message" in m) {
     htmlString = `
     <div id="bookmark-list-container" class="${searchEngine}">
       <div id="navbar">
-        <span id="mf-logo">  
-           <img src=${browser.runtime.getURL('icons/logo_full.svg')}
-           alt="miniflux injector"/>
-        </span>
-        <a id="mf-options" class="openOptions">
+        <a id="ld-logo">  
+          <img src=${browser.runtime.getURL("icons/logo.svg")} class="setup" />
+          <h1>linkding injector</h1>
+        </a>
+        <a id="ld-options" class="openOptions">
           <img class="ld-settings" src=${browser.runtime.getURL(
-            'icons/cog.svg'
+            "icons/cog.svg"
           )} />
         </a>
       </div>
@@ -55,50 +61,48 @@ port.onMessage.addListener(function (m) {
     `;
 
     // Convert the above string into a DOM document
-    html = parser.parseFromString(htmlString, 'text/html');
+    html = parser.parseFromString(htmlString, "text/html");
   }
   // If there is no message and there are actual results display them
   else if (m.results.length > 0) {
     // If the theme for a search engine is not set to auto, we need to add
     // specific CSS classes
     // Get the theme configuration
-    switch (searchEngine) {
-      case 'duckduckgo':
-        theme = m.config.themeDuckduckgo;
-        break;
-      case 'google':
-        theme = m.config.themeGoogle;
-        break;
-    }
-    if (theme == 'auto') {
-      themeClass = ''; // automatic theme detection
+    const themes = {
+      duckduckgo: m.config.themeDuckduckgo,
+      google: m.config.themeGoogle,
+      brave: m.config.themeBrave,
+      searx: m.config.themeSearx,
+    };
+
+    const theme = themes[searchEngine];
+
+    if (theme == "auto") {
+      themeClass = ""; // automatic theme detection
     } else {
       themeClass = theme; // "dark" for dark theme, "light" for light theme
     }
 
-    // URL of the configured miniflux instance (including search term)
-    let minifluxUrl =
+    // URL of the configured linkding instance (including search term)
+    let linkdingUrl =
       m.config.baseUrl +
-      (searchTerm.length > 0 ? `/search?q=${searchTerm}` : '/');
+      (searchTerm.length > 0 ? `/bookmarks?q=${searchTerm}` : "/");
 
     htmlString += `
     <div id="bookmark-list-container" class="${searchEngine} ${themeClass}">
       <div id="navbar">
-        <span id="mf-logo">  
-          <img src=${browser.runtime.getURL(
-            searchEngine === 'google'
-              ? 'icons/logo_full_google.svg'
-              : 'icons/logo_full.svg'
-          )} alt="miniflux injector"/>
-        </span>
-        <div id="mf-results_amount">
+        <a id="ld-logo" href="${linkdingUrl}">  
+          <img src=${browser.runtime.getURL("icons/logo.svg")} />
+          <h1>linkding injector</h1>
+        </a>
+        <div id="results_amount">
           Found <span>${m.results.length}</span> ${
-      m.results.length == 1 ? 'result' : 'results'
+      m.results.length == 1 ? "result" : "results"
     }.
         </div>
-        <a id="mf-options" class="openOptions">
+        <a id="ld-options" class="openOptions">
           <img class="ld-settings" src=${browser.runtime.getURL(
-            'icons/cog.svg'
+            "icons/cog.svg"
           )} />
         </a>
       </div>
@@ -106,69 +110,78 @@ port.onMessage.addListener(function (m) {
 
     htmlString += `<ul id="bookmark-list">`;
 
-    m.results.forEach((entry) => {
+    m.results.forEach((bookmark) => {
       htmlString += `
         <li>
           <div class="title">
             <a
-              href="${entry.url}"
-              target=${m.config.openNewTab ? '_blank' : '_self'}
+              href="${bookmark.url}"
+              target=${m.config.openLinkType == "sameTab" ? "_self" : "_blank"}
               rel="noopener"
-              id="mf-title"
-              >${escapeHTML(entry.title)}</a
+              >${escapeHTML(bookmark.title)}</a
             >
           </div>
           <div class="description ${themeClass}">
-             ${escapeHTML(entry.author)}
+            <span class="tags">
+              ${bookmark.tags
+                .map((tag) => {
+                  return "<a>#" + escapeHTML(tag) + "</a>";
+                })
+                .join(" ")}
+              </a>
+            </span>
+    
+            ${bookmark.tags.length > 0 ? "|" : ""}
+    
+            <span>
+              ${escapeHTML(bookmark.description)}
+            </span>
           </div>
         </li>`;
     });
-    htmlString += `
-        </ul>
-        <div id="more-links"> 
-          <a href="${minifluxUrl}">More</a>
-        </div>
-      </div>
-        `;
+    htmlString += `</ul></div>`;
   } else {
-    console.error('miniflux injector: no message and no search results');
+    console.error("linkding injector: no message and no search results");
     return;
   }
 
-  let sidebar; // DOM document for the sidebar
+  // Finding the sidebar
 
-  // querySelectors for finding the sidebar in the search engine websites
-  if (searchEngine == 'duckduckgo') {
-    sidebar = document.querySelector('.sidebar-modules');
-  } else if (searchEngine == 'google') {
-    sidebar = document.querySelector('#rhs');
-    if (sidebar == null) {
-      // google completely omits the sidebar container if there is no content.
-      // we need to add it manually before injection
-      let sidebarContainerString = `
-        <div id="rhs" class="TQc1id hSOk2e rhstc4"></div>`;
+  const sidebarSelectors = {
+    duckduckgo: "section[data-area=sidebar]",
+    google: "#rhs",
+    brave: "#side-right",
+    searx: "#sidebar",
+  };
+  const sidebarSelector = sidebarSelectors[searchEngine];
+  let sidebar = document.querySelector(sidebarSelector);
 
-      // construct DOM document from string
-      let sidebarContainer = parser.parseFromString(
-        sidebarContainerString,
-        'text/html'
-      );
-      let container = document.querySelector('#rcnt'); // get main search result container
-      container.appendChild(sidebarContainer.body.querySelector('div'));
-      sidebar = document.querySelector('#rhs'); // get the added sidebar container
-    }
+  // Google completely omits the sidebar container if there is no content.
+  // We need to add it manually before injection
+  if (searchEngine === "google" && sidebar === null) {
+    let sidebarContainerString = `
+    <div id="rhs" class="TQc1id hSOk2e rhstc4"></div>`;
+    let sidebarContainer = parser.parseFromString(
+      sidebarContainerString,
+      "text/html"
+    );
+    let container = document.querySelector("#rcnt");
+    container.appendChild(sidebarContainer.body.querySelector("div"));
+    sidebar = document.querySelector("#rhs");
   }
 
   // Convert the html string into a DOM document
-  html = parser.parseFromString(htmlString, 'text/html');
+  html = parser.parseFromString(htmlString, "text/html");
   // The actual injection
-  sidebar.prepend(html.body.querySelector('div'));
+  if (document.querySelector("#bookmark-list-container") == null) {
+    sidebar.prepend(html.body.querySelector("div"));
+  }
 
   // Event listeners for opening the extension options. These can only be opened
   // by the background script, so we need to send a message to it
-  document.querySelectorAll('.openOptions').forEach((el) => {
-    el.addEventListener('click', () => {
-      port.postMessage({ action: 'openOptions' });
+  document.querySelectorAll(".openOptions").forEach((el) => {
+    el.addEventListener("click", () => {
+      port.postMessage({ action: "openOptions" });
     });
   });
 });
@@ -176,6 +189,9 @@ port.onMessage.addListener(function (m) {
 // Start the search by sending a message to background.js with the search term
 let queryString = location.search;
 let urlParams = new URLSearchParams(queryString);
-let searchTerm = urlParams.get('q');
+let searchTerm = escapeHTML(urlParams.get("q"));
+if (searchEngine == "searx") {
+  searchTerm = escapeHTML(document.querySelector("input#q").value);
+}
 
 port.postMessage({ searchTerm: searchTerm });

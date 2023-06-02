@@ -12,10 +12,16 @@ ul#bookmark-list {
 
     &.dark,
     .dark-bg &:not(.light),
-    body[data-dt='1'] &:not(.light) {
+    body[data-dt="1"] &:not(.light),
+    html.dark &:not(.light),
+    html.theme-dark &:not(.light) {
       color: $gray-color-dark;
     }
 
+    //   color: $gray-color-dark
+    // }
+
+    // @media (prefers-color-scheme: dark) {
     a,
     a:visited:hover {
       color: $alternative-color;
