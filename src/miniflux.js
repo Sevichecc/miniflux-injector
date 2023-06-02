@@ -3,6 +3,14 @@ export class MinifluxApi {
     this.configuration = configuration
   }
 
+  async fetchWithHeaders(url) {
+    const { token } = this.configuration
+    const headers = {
+      'X-Auth-Token': token,
+    }
+    return fetch(url, { headers })
+  }
+
   async search(text, options) {
     const { baseUrl } = this.configuration
     const q = encodeURIComponent(text)
@@ -48,13 +56,5 @@ export class MinifluxApi {
 
     const { status } = await response.json()
     return `${baseUrl}/${status === 'read' ? 'history' : status}/entry/${id}`
-  }
-
-  async fetchWithHeaders(url ) {
-    const { token } = this.configuration
-     const headers = {
-       'X-Auth-Token': token,
-     }
-    return fetch(url, { headers })
   }
 }
