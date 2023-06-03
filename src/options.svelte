@@ -31,12 +31,15 @@
     toMiniflux: false,
   };
 
+  const removeTrailingSlash = (baseUrl) =>
+    baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+
   async function init() {
     const config = (await getConfiguration()) || defaultConfig;
 
     const mergedConfig = Object.assign({}, defaultConfig, config);
 
-    baseUrl = mergedConfig.baseUrl;
+    baseUrl = removeTrailingSlash(mergedConfig.baseUrl),
     token = mergedConfig.token;
     resultNum = mergedConfig.resultNum;
     openNewTab = mergedConfig.openNewTab;
