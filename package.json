@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
   "license": "MIT",
-  "author": "Jakob Essbüchl, Sevichecc",
+  "author": "SevicheCC, Jakob Essbüchl",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sevichecc/miniflux-injector.git"
