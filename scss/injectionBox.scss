@@ -78,30 +78,6 @@ div#bookmark-list-container {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid $duckduckgo-border-color;
 
-  // &.dark,
-  // .dark-bg &:not(.light),
-  // body[data-dt='1'] &:not(.light) {
-  //   background-color: $duckduckgo-bg;
-  //   border: none;
-  //   color: $primary-color-dark;
-
-  //   #mf-title {
-  //     color: $primary-color-dark;
-  //   }
-
-  //   #mf-logo img {
-  //     filter: invert(100%);
-  //   }
-
-  //   #navbar #mf-results_amount span {
-  //     color: $primary-color-dark !important;
-  //   }
-
-  //   #more-links a {
-  //     color: $alternative-color-dark-light-theme;
-  //   }
-  // }
-
   &.google {
     // google-specific styles
     width: 369px;
