@@ -32,7 +32,8 @@ Either open the extension options in the browser extension manager or follow the
 
 Then paste the API keys you copy before, and fill in the Base URL with your Miniflux server's URL
 
-![config](/docs/config.png 'Config')
+<img src="./docs/config.png" alt="config sreenshot" style="max-width:300px;">
+
 Once the extension is properly configured, miniflux search results will show in the right sidebar. If there are no search results nothing will appear.
 
 **Screenshots**
