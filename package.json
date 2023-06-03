@@ -1,7 +1,7 @@
 {
   "name": "miniflux-injector",
-  "version": "1.0.",
-  "description": "Injects Miniflux search results into search pages like Google and Duckduckgo.",
+  "version": "1.3.2",
+  "description": "Injects Miniflux search results into search engine pages such as  Google, DuckDuckGo, SearXNG and Brave Search.",
   "license": "MIT",
   "author": "SevicheCC, Jakob Essbüchl",
   "repository": {
