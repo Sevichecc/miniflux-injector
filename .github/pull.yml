@@ -1,5 +1,0 @@
-version: "1"
-rules:
-  - base: Fivefold/linkding-injector:master
-    upstream: Sevichecc:sycn-upsteam   # change `wei` to the owner of upstream repo
-    mergeMethod: hardreset
