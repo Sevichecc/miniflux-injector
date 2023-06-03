@@ -13,6 +13,7 @@
   let themeDuckduckgo;
   let themeGoogle;
   let themeBrave;
+  let themeSearx;
   let toMiniflux;
   let isSuccess;
   let isError;
@@ -26,6 +27,7 @@
     themeGoogle: 'auto',
     themeDuckduckgo: 'auto',
     themeBrave: 'auto',
+    themeSearx: 'auto',
     toMiniflux: false,
   };
 
@@ -41,6 +43,7 @@
     themeDuckduckgo = mergedConfig.themeDuckduckgo;
     themeGoogle = mergedConfig.themeGoogle;
     themeBrave = mergedConfig.themeBrave;
+    themeSearx = mergedConfig.themeSearx;
     toMiniflux = mergedConfig.toMiniflux;
   }
 
@@ -54,6 +57,7 @@
       openNewTab,
       themeDuckduckgo,
       themeGoogle,
+      themeSearx,
       toMiniflux,
       themeBrave,
     };
@@ -183,7 +187,7 @@
         </label>
       </div>
       <div class="form-group p-relative clearfix">
-        <div class="form-label float-left">Brave Search</div>
+        <div class="form-label float-left">Brave Search †</div>
         <label class="form-radio form-inline float-right">
           <input type="radio" bind:group={themeBrave} value="light" />
           <i class="form-icon" />light
@@ -196,6 +200,25 @@
           <input type="radio" bind:group={themeBrave} value="auto" />
           <i class="form-icon" />auto
         </label>
+      </div>
+      <div class="form-group p-relative clearfix">
+        <div class="form-label float-left">SearX/SearXNG†</div>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="light" />
+          <i class="form-icon" />light
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="dark" />
+          <i class="form-icon" />dark
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeSearx} value="auto" />
+          <i class="form-icon" />auto
+        </label>
+      </div>
+      <div class="form-input-hint">
+        † Automatic theme detection may fail with these search engines unless
+        you set a specific theme (not 'system') in the search engine settings.
       </div>
       <div class="divider" />
     </div>

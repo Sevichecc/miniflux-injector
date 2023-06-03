@@ -7,12 +7,15 @@ ul#bookmark-list {
     margin-top: 0.4rem;
   }
 
+
   .description {
     color: $gray-color;
-
+    
     &.dark,
     .dark-bg &:not(.light),
-    body[data-dt='1'] &:not(.light) {
+    body[data-dt='1'] &:not(.light),
+    :root:not(.light) &:not(.light),
+    html.theme-dark &:not(.light) {
       color: $gray-color-dark;
     }
 

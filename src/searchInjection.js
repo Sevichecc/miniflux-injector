@@ -25,6 +25,8 @@ if (document.location.hostname.match(/duckduckgo/)) {
   searchEngine = 'google';
 } else if (document.location.hostname.match(/search.brave.com/)) {
   searchEngine = 'brave';
+} else if (document.location.href.match(/http.?:\/\/.+\/search/)) {
+  searchEngine = 'searx';
 }
 
 // When background script answers with results, construct html for the result box
@@ -42,7 +44,7 @@ port.onMessage.addListener(function (m) {
       <div id="navbar">
         <span id="mf-logo">  
            <img src=${browser.runtime.getURL('icons/logo_full.svg')}
-           alt="miniflux injector"/>
+           alt="miniflux injector" class="setup"/>
         </span>
         <a id="mf-options" class="openOptions">
           <img class="ld-settings" src=${browser.runtime.getURL(
@@ -74,6 +76,9 @@ port.onMessage.addListener(function (m) {
       case 'brave':
         theme = m.config.themeBrave;
         break;
+      case 'searx':
+        theme = m.config.themeSearx;
+        break;
     }
     if (theme == 'auto') {
       themeClass = ''; // automatic theme detection
@@ -91,7 +96,7 @@ port.onMessage.addListener(function (m) {
       <div id="navbar">
         <span id="mf-logo">  
           <img src=${browser.runtime.getURL(
-            searchEngine === 'google'
+            (searchEngine === 'google' || searchEngine === 'searx')
               ? 'icons/logo_full_google.svg'
               : 'icons/logo_full.svg'
           )} alt="miniflux injector"/>
@@ -164,12 +169,16 @@ port.onMessage.addListener(function (m) {
     }
   } else if (searchEngine == 'brave') {
     sidebar = document.querySelector('#side-right');
+  } else if (searchEngine == 'searx') {
+    sidebar = document.querySelector('#sidebar');
   }
 
   // Convert the html string into a DOM document
   html = parser.parseFromString(htmlString, 'text/html');
   // The actual injection
-  sidebar.prepend(html.body.querySelector('div'));
+  if (!document.querySelector('#bookmark-list-container')) {
+    sidebar.prepend(html.body.querySelector('div'));
+  }
 
   // Event listeners for opening the extension options. These can only be opened
   // by the background script, so we need to send a message to it
@@ -184,5 +193,8 @@ port.onMessage.addListener(function (m) {
 let queryString = location.search;
 let urlParams = new URLSearchParams(queryString);
 let searchTerm = urlParams.get('q');
+if (searchEngine == 'searx') {
+  searchTerm = document.querySelector('input#q').value;
+}
 
 port.postMessage({ searchTerm: searchTerm });

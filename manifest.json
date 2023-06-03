@@ -44,6 +44,17 @@
     },
     {
       "matches": [
+        "*://*/search?*"
+      ],
+      "css": [
+        "build/searchInjection.css"
+      ],
+      "js": [
+        "build/searchInjection.js"
+      ]
+    },
+    {
+      "matches": [
         "*://*.google.com/*",
         "*://*.google.ad/*",
         "*://*.google.ae/*",
