@@ -5,7 +5,7 @@ const CONFIG_KEY = "mf_ext_config";
 export const getConfiguration = async () => {
   return new Promise((resolve) => {
     getStorage().get(CONFIG_KEY, (data) => {
-      const config = JSON.parse(data[CONFIG_KEY] || '{}');
+      const config = JSON.parse(data[CONFIG_KEY] || {});
       resolve(config);
     });
   });

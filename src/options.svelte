@@ -3,8 +3,8 @@
     getConfiguration,
     isConfigurationComplete,
     saveConfiguration,
-  } from "./configuration";
-  import { MinifluxApi } from "./miniflux";
+  } from './configuration';
+  import { MinifluxApi } from './miniflux';
 
   let baseUrl;
   let token;
@@ -12,18 +12,20 @@
   let openNewTab;
   let themeDuckduckgo;
   let themeGoogle;
+  let themeBrave;
   let toMiniflux;
   let isSuccess;
   let isError;
 
   const defaultConfig = {
-    baseUrl: "",
-    token: "",
+    baseUrl: '',
+    token: '',
     resultNum: 10,
-    openLinkType: "newTab",
+    openLinkType: 'newTab',
     openNewTab: true,
-    themeGoogle: "auto",
-    themeDuckduckgo: "auto",
+    themeGoogle: 'auto',
+    themeDuckduckgo: 'auto',
+    themeBrave: 'auto',
     toMiniflux: false,
   };
 
@@ -38,6 +40,7 @@
     openNewTab = mergedConfig.openNewTab;
     themeDuckduckgo = mergedConfig.themeDuckduckgo;
     themeGoogle = mergedConfig.themeGoogle;
+    themeBrave = mergedConfig.themeBrave;
     toMiniflux = mergedConfig.toMiniflux;
   }
 
@@ -52,6 +55,7 @@
       themeDuckduckgo,
       themeGoogle,
       toMiniflux,
+      themeBrave,
     };
 
     const testResult = await new MinifluxApi(config).testConnection(config);
@@ -175,6 +179,21 @@
         </label>
         <label class="form-radio form-inline float-right">
           <input type="radio" bind:group={themeDuckduckgo} value="auto" />
+          <i class="form-icon" />auto
+        </label>
+      </div>
+      <div class="form-group p-relative clearfix">
+        <div class="form-label float-left">Brave Search</div>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="light" />
+          <i class="form-icon" />light
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="dark" />
+          <i class="form-icon" />dark
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeBrave} value="auto" />
           <i class="form-icon" />auto
         </label>
       </div>

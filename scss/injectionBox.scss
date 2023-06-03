@@ -5,61 +5,20 @@ div#bookmark-list-container {
   background-color: #fff;
   color: $primary-color;
 
-  // duckduckgo-specific styles
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid $duckduckgo-border-color;
+  ul > li {
+    margin-top: 0.4rem;
+  }
 
-  /**
-  .dark-bg is the class duckduckgo globally uses for the dark theme
-  data-dt=1 is the attribute of the body tag google uses for the dark theme
-  
-  .light is added if the manual white theme is set and disables these dark 
-  styles, while .dark activates them regardless of global theme.
-  */
-  &.dark,
-  .dark-bg &:not(.light),
-  body[data-dt='1'] &:not(.light) {
-    background-color: $duckduckgo-bg;
-    border: none;
-    color: $primary-color-dark;
+  a {
+    color: $primary-color;
 
-    #mf-title {
-      color: $primary-color-dark;
-    }
-
-    #mf-logo img {
-      filter: invert(100%);
-    }
-
-    #navbar #mf-results_amount span {
-      color: $primary-color-dark !important;
-    }
-
-    #more-links a {
-      color: $alternative-color-dark-light-theme;
+    :hover {
+      color: $link-color-dark;
+      cursor: pointer;
     }
   }
 
-  body[data-dt='1'] &:not(.light) {
-    background-color: $google-bg;
-    border: 1px solid $google-border-color-dark;
-  }
-  // dark styling end
-
-  &.google {
-    width: 369px;
-    box-sizing: border-box;
-    box-shadow: none;
-
-    h1 {
-      font-size: 0.9em;
-    }
-
-    #navbar #mf-logo {
-      width: 45%;
-    }
-  }
-
+  // Basis elements
   #mf-title {
     color: $primary-color;
     :hover {
@@ -84,9 +43,6 @@ div#bookmark-list-container {
     cursor: pointer;
   }
 
-  ul > li {
-    margin-top: 0.4rem;
-  }
   #navbar {
     display: flex;
     flex-flow: row nowrap;
@@ -118,4 +74,124 @@ div#bookmark-list-container {
       }
     }
   }
+  // duckduckgo-specific styles
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid $duckduckgo-border-color;
+
+  // &.dark,
+  // .dark-bg &:not(.light),
+  // body[data-dt='1'] &:not(.light) {
+  //   background-color: $duckduckgo-bg;
+  //   border: none;
+  //   color: $primary-color-dark;
+
+  //   #mf-title {
+  //     color: $primary-color-dark;
+  //   }
+
+  //   #mf-logo img {
+  //     filter: invert(100%);
+  //   }
+
+  //   #navbar #mf-results_amount span {
+  //     color: $primary-color-dark !important;
+  //   }
+
+  //   #more-links a {
+  //     color: $alternative-color-dark-light-theme;
+  //   }
+  // }
+
+  &.google {
+    // google-specific styles
+    width: 369px;
+    box-sizing: border-box;
+    box-shadow: none;
+
+    h1 {
+      font-size: 0.9em;
+    }
+
+    #navbar #mf-logo {
+      width: 45%;
+    }
+  }
+
+  &.brave {
+    // brave-specific styles
+    box-shadow: none;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.655rem;
+
+    #navbar #mf-logo {
+      flex: 1;
+      width: 45%;
+      margin-inline-end: 1rem;
+    }
+
+    h1 {
+      font-size: 0.8em !important;
+    }
+    #mf-results_amount {
+      flex: 1;
+    }
+  }
+
+  // --------- dark styling start ---------
+  @mixin dark-styling {
+    background-color: $duckduckgo-bg;
+    border: none;
+    color: $primary-color-dark;
+
+    a {
+      color: $primary-color-dark;
+    }
+
+    #navbar #mf-results_amount span {
+      color: $alternative-color !important;
+    }
+
+    #mf-title {
+      color: $primary-color-dark;
+    }
+
+    #more-links > a {
+      color: $alternative-color-dark-light-theme;
+    }
+
+    body[data-dt='1'] &:not(.light) {
+      background-color: $google-bg;
+      border: 1px solid $google-border-color-dark;
+    }
+
+    #mf-logo img {
+      filter: invert(100%);
+    }
+
+    &.brave:not(.light) {
+      background-color: #1e2028;
+    }
+  }
+
+  /**
+  .dark-bg is the class duckduckgo globally uses for the dark theme
+  data-dt=1 is the attribute of the body tag google uses for the dark theme
+  .dark is the class brave search globally uses for the dark theme
+  
+  .light is added if the manual white theme is set and disables these dark 
+  styles, while .dark activates them regardless of global theme.
+  */
+  &.dark,
+  .dark-bg &:not(.light),             // DuckDuckGo
+  body[data-dt="1"] &:not(.light),    // Google
+  :root:not(.light) &:not(.light) {
+    // Brave Search
+    @media (prefers-color-scheme: dark) {
+      @include dark-styling;
+    }
+
+    @include dark-styling;
+  }
+  // --------- dark styling end ---------
 }
