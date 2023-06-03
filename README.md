@@ -7,12 +7,17 @@ Fork from [linkding-injector](https://github.com/Fivefold/linkding-injector)
 **Features**
 
 - When searching on a search engine the search term is also sent to your Miniflux instance and results are added in a new box in the sidebar right to the search engine results.
-- Supports [google](https://www.google.com/) and [duckduckgo](https://duckduckgo.com/) search engines
+- Supports the following search engines:
+  - [google](https://www.google.com/)
+  - [duckduckgo](https://duckduckgo.com/)
+  - [SearX/SearXNG](https://duckduckgo.com/)*
+  - [Brave Search](https://search.brave.com/)
 - Automatic light or dark theme detection
 - Open search result in Miniflux
   Works with: Firefox, Chrome
 - Omnibox support (type keyword 'mj' in searchbar to search in Miniflux)
 
+_\* experimental, please read [this](docs/searx.md) if you have problems_
 ## Usage
 
 ### 1. Create a Miniflux API Key

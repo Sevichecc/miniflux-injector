@@ -66,7 +66,6 @@
 
     if (testResult) {
       await saveConfiguration(config);
-      console.log(await isConfigurationComplete());
       isError = false;
       isSuccess = true;
     } else {

@@ -44,7 +44,7 @@
     },
     {
       "matches": [
-        "*://*/search?*"
+       [ "*://*/search?*","*://*/search"]
       ],
       "css": [
         "build/searchInjection.css"
