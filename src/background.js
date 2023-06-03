@@ -18,17 +18,13 @@ browser.omnibox.onInputStarted.addListener(async () => {
 
   browser.omnibox.setDefaultSuggestion({ description });
 
-  if (hasCompleteConfiguration) {
-    api = new MinifluxApi(configuration);
-  } else {
-    api = null;
-  }
+  api = hasCompleteConfiguration ? new MinifluxApi(configuration) : null;
+  
 });
 
 browser.omnibox.onInputChanged.addListener(async (text, suggest) => {
-  if (!api) {
-    return;
-  }
+  if (!api) return;
+  
   let config = await getConfiguration();
 
   api

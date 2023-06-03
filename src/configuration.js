@@ -2,22 +2,21 @@ import { getStorage } from "./browser";
 
 const CONFIG_KEY = "mf_ext_config";
 
-export async function getConfiguration() {
+export const getConfiguration = async () => {
   return new Promise((resolve) => {
     getStorage().get(CONFIG_KEY, (data) => {
-      const config = JSON.parse(data[CONFIG_KEY] || "{}");
-      console.log(config);
+      const config = JSON.parse(data[CONFIG_KEY] || '{}');
       resolve(config);
     });
   });
-}
+};
 
-export async function saveConfiguration(config) {
+export const saveConfiguration = async (config) => {
   const configJson = JSON.stringify(config);
   await getStorage().set({ [CONFIG_KEY]: configJson });
-}
+};
 
-export async function isConfigurationComplete() {
+export const isConfigurationComplete = async () => {
   const { baseUrl, token } = await getConfiguration();
   return !!baseUrl && !!token;
-}
+};
