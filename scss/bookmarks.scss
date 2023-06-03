@@ -7,21 +7,24 @@ ul#bookmark-list {
     margin-top: 0.4rem;
   }
 
-
   .description {
     color: $gray-color;
-    
-    &.dark,
-    .dark-bg &:not(.light),
-    body[data-dt='1'] &:not(.light),
-    :root:not(.light) &:not(.light),
-    html.theme-dark &:not(.light) {
-      color: $gray-color-dark;
-    }
-
     a,
     a:visited:hover {
       color: $alternative-color;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &.dark,
+  .dark-bg &:not(.light),             // DuckDuckGo
+  body[data-dt="1"] &:not(.light),    // Google
+  :root:not(.light) &:not(.light),  // Brave Search
+  html.theme-dark &:not(.light)  // SearXNG
+    {
+      .description {
+        color: $gray-color-dark;
+      }
     }
   }
 }
