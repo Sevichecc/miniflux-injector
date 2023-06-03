@@ -1,5 +1,9 @@
 <script>
-  import { getConfiguration, saveConfiguration } from "./configuration";
+  import {
+    getConfiguration,
+    isConfigurationComplete,
+    saveConfiguration,
+  } from "./configuration";
   import { MinifluxApi } from "./miniflux";
 
   let baseUrl;
@@ -12,15 +16,29 @@
   let isSuccess;
   let isError;
 
-  function init() {
-    const config = getConfiguration();
-    baseUrl = config.baseUrl;
-    token = config.token;
-    resultNum = config.resultNum;
-    openNewTab = config.openNewTab;
-    themeDuckduckgo = config.themeDuckduckgo;
-    themeGoogle = config.themeGoogle;
-    toMiniflux = config. toMiniflux;
+  const defaultConfig = {
+    baseUrl: "",
+    token: "",
+    resultNum: 10,
+    openLinkType: "newTab",
+    openNewTab: true,
+    themeGoogle: "auto",
+    themeDuckduckgo: "auto",
+    toMiniflux: false,
+  };
+
+  async function init() {
+    const config = (await getConfiguration()) || defaultConfig;
+
+    const mergedConfig = Object.assign({}, defaultConfig, config);
+
+    baseUrl = mergedConfig.baseUrl;
+    token = mergedConfig.token;
+    resultNum = mergedConfig.resultNum;
+    openNewTab = mergedConfig.openNewTab;
+    themeDuckduckgo = mergedConfig.themeDuckduckgo;
+    themeGoogle = mergedConfig.themeGoogle;
+    toMiniflux = mergedConfig.toMiniflux;
   }
 
   init();
@@ -33,13 +51,14 @@
       openNewTab,
       themeDuckduckgo,
       themeGoogle,
-      toMiniflux
+      toMiniflux,
     };
 
     const testResult = await new MinifluxApi(config).testConnection(config);
 
     if (testResult) {
-      saveConfiguration(config);
+      await saveConfiguration(config);
+      console.log(await isConfigurationComplete());
       isError = false;
       isSuccess = true;
     } else {
@@ -49,12 +68,13 @@
   }
 </script>
 
-
 <h6 class="col-12 mt-0 py-1 mb-2">Configuration</h6>
 <div class="divider" />
 <form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
-    <label class="form-label" for="input-base-url">Base URL <span class="text-error">*</span></label> 
+    <label class="form-label" for="input-base-url"
+      >Base URL <span class="text-error">*</span></label
+    >
     <input
       class="form-input"
       type="text"
@@ -63,12 +83,12 @@
       bind:value={baseUrl}
       required
     />
-    <div class="form-input-hint">
-      Your Miniflux server's URL, <strong>without</strong> / trailing slash
-    </div>
+    <div class="form-input-hint">Your Miniflux server's URL</div>
   </div>
   <div class="form-group">
-    <label class="form-label" for="input-token">API Keys <span class="text-error">*</span></label>
+    <label class="form-label" for="input-token"
+      >API Keys <span class="text-error">*</span></label
+    >
     <input
       class="form-input"
       type="password"
@@ -78,13 +98,11 @@
       required
     />
     <div class="form-input-hint">
-      Used to authenticate. Found on <samp>Settings/API-Keys.</samp> 
+      Used to authenticate. Found on <samp>Settings/API-Keys.</samp>
     </div>
   </div>
   <div class="form-group">
-    <label class="form-label" for="input-search-num"
-      >Max search results
-    </label>
+    <label class="form-label" for="input-search-num">Max search results </label>
     <input
       class="form-input"
       type="number"
@@ -93,19 +111,19 @@
       bind:value={resultNum}
     />
     <div class="form-input-hint">
-       High numbers could lead to worse performance
+      High numbers could lead to worse performance
     </div>
   </div>
   <div class="form-group">
     <label class="form-switch">
-      <input type="checkbox"  id="open-new-tab" bind:checked={openNewTab}>
-      <i class="form-icon float-right"></i> Open Links in a New Tab
+      <input type="checkbox" id="open-new-tab" bind:checked={openNewTab} />
+      <i class="form-icon float-right" /> Open Links in a New Tab
     </label>
   </div>
   <div class="form-group">
     <label class="form-switch">
-      <input type="checkbox"  id="to-miniflux" bind:checked={toMiniflux}>
-      <i class="form-icon"></i> Open in Miniflux
+      <input type="checkbox" id="to-miniflux" bind:checked={toMiniflux} />
+      <i class="form-icon" /> Open in Miniflux
     </label>
   </div>
   <div class="accordion">
@@ -162,7 +180,6 @@
       </div>
       <div class="divider" />
     </div>
-  
   </div>
 
   <div class="button-row">

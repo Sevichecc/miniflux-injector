@@ -1,28 +1,23 @@
-const CONFIG_KEY = "ld_ext_config";
+import { getStorage } from "./browser";
 
-export function getConfiguration() {
-  const configJson = localStorage.getItem(CONFIG_KEY);
-  const config = configJson
-    ? JSON.parse(configJson)
-    : {
-        baseUrl: "",
-        token: "",
-        resultNum: 10,
-        openNewTab: true,
-        themeGoogle: "auto",
-        themeDuckduckgo: "auto",
-        toMiniflux: false,
-      };
-  return config;
+const CONFIG_KEY = "mf_ext_config";
+
+export async function getConfiguration() {
+  return new Promise((resolve) => {
+    getStorage().get(CONFIG_KEY, (data) => {
+      const config = JSON.parse(data[CONFIG_KEY] || "{}");
+      console.log(config);
+      resolve(config);
+    });
+  });
 }
 
-export function saveConfiguration(config) {
+export async function saveConfiguration(config) {
   const configJson = JSON.stringify(config);
-  localStorage.setItem(CONFIG_KEY, configJson);
+  await getStorage().set({ [CONFIG_KEY]: configJson });
 }
 
-export function isConfigurationComplete() {
-  const config = getConfiguration();
-
-  return config.baseUrl && config.token;
+export async function isConfigurationComplete() {
+  const { baseUrl, token } = await getConfiguration();
+  return !!baseUrl && !!token;
 }

@@ -45,8 +45,8 @@ Once the extension is properly configured, miniflux search results will show in 
 
 **Requirements**
 
-- Latest LTS Node version (v14)
-- Latest LTS NPM version (v6)
+- Latest LTS Node version (v14+ )
+- Latest LTS NPM version (v6+)
 - bash (on Linux) or powershell (on Windows)
 - npx (included with npm v5.2+)
 

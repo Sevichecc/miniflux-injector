@@ -1,7 +1,7 @@
-import { getBrowser, openOptions } from './browser';
-import { getConfiguration, isConfigurationComplete } from './configuration';
+import { getBrowser, openOptions } from "./browser";
+import { getConfiguration, isConfigurationComplete } from "./configuration";
 
-import { MinifluxApi } from './miniflux';
+import { MinifluxApi } from "./miniflux";
 
 const browser = getBrowser();
 let api = null;
@@ -11,10 +11,10 @@ let hasCompleteConfiguration = false;
 // Omnibox
 browser.omnibox.onInputStarted.addListener(async () => {
   configuration = await getConfiguration();
-  hasCompleteConfiguration = isConfigurationComplete(configuration);
+  hasCompleteConfiguration = await isConfigurationComplete();
   const description = hasCompleteConfiguration
-    ? 'Search bookmarks in Miniflux'
-    : '⚠️ Please configure the Miniflux-injector extension first';
+    ? "Search bookmarks in Miniflux"
+    : "⚠️ Please configure the Miniflux-injector extension first";
 
   browser.omnibox.setDefaultSuggestion({ description });
 
@@ -29,7 +29,7 @@ browser.omnibox.onInputChanged.addListener(async (text, suggest) => {
   if (!api) {
     return;
   }
-  let config = getConfiguration();
+  let config = await getConfiguration();
 
   api
     .search(text, { limit: config.resultNum })
@@ -60,13 +60,13 @@ browser.omnibox.onInputEntered.addListener((content, disposition) => {
     : `${configuration.baseUrl}/search?q=${encodeURIComponent(content)}`;
 
   switch (disposition) {
-    case 'currentTab':
+    case "currentTab":
       browser.tabs.update({ url });
       break;
-    case 'newForegroundTab':
+    case "newForegroundTab":
       browser.tabs.create({ url });
       break;
-    case 'newBackgroundTab':
+    case "newBackgroundTab":
       browser.tabs.create({ url, active: false });
       break;
   }
@@ -80,19 +80,19 @@ function connected(p) {
 
   // When the content script sends the search term, search on miniflux and
   // return results
-  portFromCS.onMessage.addListener(function (m) {
-    if (m.action == 'openOptions') {
+  portFromCS.onMessage.addListener(async function (m) {
+    if (m.action == "openOptions") {
       // Open the add on options if the user clicks on the options link in the
       // injected box
       openOptions();
-    } else if (isConfigurationComplete() == false) {
+    } else if (!(await isConfigurationComplete())) {
       portFromCS.postMessage({
         message:
-          'Connection to your Miniflux instance is not configured yet! ' +
+          "Connection to your Miniflux instance is not configured yet! " +
           "Please configure the extension in the <a class='openOptions'>options</a>.",
       });
     } else {
-      let config = getConfiguration();
+      let config = await getConfiguration();
       api = new MinifluxApi(config);
       // Configuration is complete, execute a search on miniflux
       api
