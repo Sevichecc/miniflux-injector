@@ -80,7 +80,7 @@ The packaged extension can be found in the `web-ext-artifacts` folder.
 
 ## Acknowledgements
 
-- This extension reuses and adapts code from the [official miniflux extension](https://github.com/sissbruecker/miniflux-extension)
+- This extension reuses and adapts code from the [official linkding extension](https://github.com/sissbruecker/linkding-extension)
 
 Logo:
 
