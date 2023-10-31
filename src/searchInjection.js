@@ -17,25 +17,27 @@ function escapeHTML(str) {
 
 const browser = getBrowser();
 
-const port = browser.runtime.connect({ name: "port-from-cs" });
+const port = browser.runtime.connect({ name: 'port-from-cs' });
 let searchEngine;
 if (document.location.hostname.match(/duckduckgo/)) {
   searchEngine = 'duckduckgo';
 } else if (document.location.hostname.match(/google/)) {
-  searchEngine = "google";
+  searchEngine = 'google';
 } else if (document.location.hostname.match(/search\.brave\.com/)) {
-  searchEngine = "brave";
+  searchEngine = 'brave';
+} else if (document.location.hostname.match(/kagi\.com/)) {
+  searchEngine = 'kagi';
 } else if (document.location.href.match(/http.?:\/\/.+\/search/)) {
-  searchEngine = "searx";
+  searchEngine = 'searx';
 } else {
-  console.debug("Linkding-Injector extension: no search engine found.");
+  console.debug('Miniflux-Injector extension: no search engine found.');
 }
 
 // When background script answers with results, construct html for the result box
 port.onMessage.addListener(function (m) {
   const parser = new DOMParser();
   let themeClass;
-  let htmlString = "";
+  let htmlString = '';
   let html;
 
   // In case we don't get results, but a message from the background script,
@@ -72,12 +74,13 @@ port.onMessage.addListener(function (m) {
       google: m.config.themeGoogle,
       brave: m.config.themeBrave,
       searx: m.config.themeSearx,
+      kagi: m.config.themeKagi,
     };
 
     const theme = themes[searchEngine];
 
-    if (theme == "auto") {
-      themeClass = ""; // automatic theme detection
+    if (theme == 'auto') {
+      themeClass = ''; // automatic theme detection
     } else {
       themeClass = theme; // "dark" for dark theme, "light" for light theme
     }
@@ -92,7 +95,7 @@ port.onMessage.addListener(function (m) {
       <div id="navbar">
         <span id="mf-logo">  
           <img src=${browser.runtime.getURL(
-            (searchEngine === 'google' || searchEngine === 'searx')
+            searchEngine === 'google' || searchEngine === 'searx'
               ? 'icons/logo_full_google.svg'
               : 'icons/logo_full.svg'
           )} alt="miniflux injector"/>
@@ -144,30 +147,31 @@ port.onMessage.addListener(function (m) {
   // Finding the sidebar
 
   const sidebarSelectors = {
-    duckduckgo: "section[data-area=sidebar]",
-    google: "#rhs",
-    brave: "#side-right",
-    searx: "#sidebar",
+    duckduckgo: 'section[data-area=sidebar]',
+    google: '#rhs',
+    brave: '#side-right',
+    searx: '#sidebar',
+    kagi: '.right-content-box',
   };
   const sidebarSelector = sidebarSelectors[searchEngine];
   let sidebar = document.querySelector(sidebarSelector);
 
   // Google completely omits the sidebar container if there is no content.
   // We need to add it manually before injection
-  if (searchEngine === "google" && sidebar === null) {
+  if (searchEngine === 'google' && sidebar === null) {
     let sidebarContainerString = `
     <div id="rhs" class="TQc1id hSOk2e rhstc4"></div>`;
     let sidebarContainer = parser.parseFromString(
       sidebarContainerString,
-      "text/html"
+      'text/html'
     );
-    let container = document.querySelector("#rcnt");
-    container.appendChild(sidebarContainer.body.querySelector("div"));
-    sidebar = document.querySelector("#rhs");
+    let container = document.querySelector('#rcnt');
+    container.appendChild(sidebarContainer.body.querySelector('div'));
+    sidebar = document.querySelector('#rhs');
   }
 
   // Convert the html string into a DOM document
-  html = parser.parseFromString(htmlString, "text/html");
+  html = parser.parseFromString(htmlString, 'text/html');
   // The actual injection
   if (!document.querySelector('#bookmark-list-container')) {
     sidebar.prepend(html.body.querySelector('div'));
@@ -186,8 +190,8 @@ port.onMessage.addListener(function (m) {
 let queryString = location.search;
 let urlParams = new URLSearchParams(queryString);
 let searchTerm = escapeHTML(urlParams.get('q'));
-if (searchEngine == "searx") {
-  searchTerm = escapeHTML(document.querySelector("input#q").value);
+if (searchEngine === 'searx') {
+  searchTerm = escapeHTML(document.querySelector('input#q').value);
 }
 
 port.postMessage({ searchTerm: searchTerm });

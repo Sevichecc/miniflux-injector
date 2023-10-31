@@ -14,6 +14,7 @@
   let themeGoogle;
   let themeBrave;
   let themeSearx;
+  let themeKagi
   let toMiniflux;
   let isSuccess;
   let isError;
@@ -28,6 +29,7 @@
     themeDuckduckgo: 'auto',
     themeBrave: 'auto',
     themeSearx: 'auto',
+    themeKagi : 'auto',
     toMiniflux: false,
   };
 
@@ -47,6 +49,7 @@
     themeGoogle = mergedConfig.themeGoogle;
     themeBrave = mergedConfig.themeBrave;
     themeSearx = mergedConfig.themeSearx;
+    themeKagi = mergedConfig.themeKagi;
     toMiniflux = mergedConfig.toMiniflux;
   }
 
@@ -216,6 +219,21 @@
         <label class="form-radio form-inline float-right">
           <input type="radio" bind:group={themeSearx} value="auto" />
           <i class="form-icon" />auto
+        </label>
+      </div>
+      <div class="form-group p-relative clearfix">
+        <div class="form-label float-left">Kagi Search</div>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeKagi} value="light" />
+          <i class="form-icon" />light
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeKagi} value="dark" />
+          <i class="form-icon" />dark
+        </label>
+        <label class="form-radio form-inline float-right">
+          <input type="radio" bind:group={themeKagi} value="auto" />
+          <i class="form-icon" />auto (default)
         </label>
       </div>
       <div class="form-input-hint">

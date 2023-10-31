@@ -33,6 +33,17 @@
     },
     {
       "matches": [
+        "*://kagi.com/*"
+      ],
+      "css": [
+        "build/searchInjection.css"
+      ],
+      "js": [
+        "build/searchInjection.js"
+      ]
+    },
+    {
+      "matches": [
         "*://search.brave.com/*"
       ],
       "css": [

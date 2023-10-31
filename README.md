@@ -10,8 +10,9 @@ Fork from [linkding-injector](https://github.com/Fivefold/linkding-injector)
 - Supports the following search engines:
   - [google](https://www.google.com/)
   - [duckduckgo](https://duckduckgo.com/)
-  - [SearX/SearXNG](https://duckduckgo.com/)*
+  - [SearX/SearXNG](https://github.com/searx/searx)*
   - [Brave Search](https://search.brave.com/)
+  - [Kagi](https://kagi.com/)
 - Automatic light or dark theme detection
 - Open search result in Miniflux
   Works with: Firefox, Chrome
