@@ -1,8 +1,8 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Miniflux injector",
   "version": "2.3.3",
-  "description": "Injects Miniflux search results into search pages like Google and Duckduckgo, SearXNG, Brave Search",
+  "description": "Injects Miniflux search results into search pages like Google and Duckduckgo, SearXNG, Brave Search, Kagi Search",
   "homepage_url": "https://github.com/Sevichecc/miniflux-injector.git",
   "icons": {
     "16": "icons/logo_16.png",
@@ -12,9 +12,7 @@
     "128": "icons/logo_128.png"
   },
   "background": {
-    "scripts": [
-      "build/background.js"
-    ]
+    "service_worker": "build/background.js"
   },
   "omnibox": {
     "keyword": "mj"
@@ -270,12 +268,24 @@
     "page": "options/index.html"
   },
   "web_accessible_resources": [
-    "icons/*.png",
-    "icons/*.svg"
+    {
+      "resources": [
+        "/icons/*.png",
+        "/icons/*.svg"
+      ],
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ]
+    }
   ],
+
   "permissions": [
-    "https://*/*",
-    "http://*/*",
     "storage"
+  ],
+
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
   ]
 }
